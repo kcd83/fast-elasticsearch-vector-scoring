@@ -1,1 +1,16 @@
 language: java
+
+before_deploy:
+  - "mvn -DskipTests package"
+  - export ZIPFILE=$(ls target/releases/elasticsearch-binary-vector-scoring-*.zip)
+
+deploy:
+  provider: releases
+  api_key:
+    # docker run --rm -it rycus86/travis-cli encrypt -r kcd83/fast-elasticsearch-vector-scoring --org 7...0
+    secure: "dR9ywvO9mVARGy9feWTvZYeqmxbcsrXa+I3yj77gF1ZC10G+0jtqW+UBCyqr925aSoqLrCFXhFfGrLCqnvedSyPqaKEiJB3CuxsazZyOOEJGJtk+5zVnIeJ54zVRxsLhmiazY83N7jFNfcLdfx8JOxdozwoutXK5F5h9kgDAYffcv50ibYp5xEgVeJrrWn4oJ81t27f2YYOcUcfp+d7HnqsI+L1j6H4tpktSYAlulXTB42B++lV6tSJtmcmy+YJAw7IIf9/mGgnDl5oLiPHZeKRjYXm8Fu61jjTK05oe6Tx8B1rRbJ4Uf0c40uXbGB4kEZsh2In6+lpIOU0U6u9NPac6/IUaE47P7afGDruAPoQhr9tWjgPwofuOKlVEE85D5vuKLP6N7i6+2n7FDkW9l6h0h2nf3wgCfDVDpVl/6JO4+M8aH3uObWHl7GExfLjDNJYKr8maoDXvNSLMSV/osNuKmUQN4Puq+aMJeRAK5yKW6QNZoxH2Zc4E7L1qm5eNQK1VXb6i7O/V9QNjuILNfmNGWBDSqqo0Mistg3WZ19TBExOMrlZV8Nnm57ARXNSv1TgmcDVD4mZLkUvAxC3Jc2+BJS+61vUdIYdGfKm0S6f19A0/ez4qkZz9XTmouVyqdpUQ9jtUgx1/oCQ9CWwJPpT8SUBpWQCXzAe9eQ771dg="
+  file: "${ZIPFILE}"
+  skip_cleanup: true
+  on:
+    all_branches: true
+    tags: true
